@@ -9,7 +9,12 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "element-plus": "^2.3.9",
+    "vue": "^3.2.13",
+    "vue-router": "^4.2.4",
+    "vxe-table": "^4.5.5",
+    "xe-utils": "^3.5.12",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
