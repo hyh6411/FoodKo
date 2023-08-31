@@ -31,7 +31,7 @@ function login() {
 .login_win {
   position: absolute;
   bottom: 30vh;
-  left: calc(50vw - 200px);
+  left: calc(50vw - 250px);
   width: 400px;
   border: 1px solid rgb(228, 228, 228);
   box-shadow: 1px 5px 20px rgba(0, 0, 0, 0.1);
