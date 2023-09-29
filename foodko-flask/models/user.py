@@ -1,6 +1,7 @@
 from .base_table import BaseTable
 from .init_sqlalchemy import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 
 class User(db.Model, BaseTable):
@@ -34,6 +35,14 @@ class User(db.Model, BaseTable):
 
     def to_str(self):
         return '(User: name: {}, pass_hash: {})'.format(self.user_name, self.password_hash)
+
+    def to_dict(self):
+        # 字典推导式，过滤掉密码
+        data = {column.name: getattr(self, column.name) for column in self.__table__.columns if column.name != 'password_hash'}
+        for key, value in data.items():
+            if isinstance(value, datetime):
+                data[key] = value.strftime('%Y-%m-%d %H:%M:%S')
+        return data
 
     def keys(self):
         return self.fields

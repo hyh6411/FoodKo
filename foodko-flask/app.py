@@ -5,6 +5,7 @@ from api import _init_blueprint
 from flask_migrate import Migrate
 import config
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 import models
 
 app = Flask(__name__)
@@ -12,6 +13,9 @@ app = Flask(__name__)
 
 # 加载配置
 app.config.from_object(config.DevelopmentConfig)
+
+# 展示修改jwt生效时长
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
 
 # jwt初始化
 jwt = JWTManager(app)
