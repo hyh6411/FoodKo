@@ -1,0 +1,13 @@
+# 忽略Python虚拟环境
+venv/
+
+# 忽略Node.js依赖包
+node_modules/
+
+# ROM 数据库映射文件
+migrations/
+
+# __pycache__
+__pycache__/
+
+.idea/

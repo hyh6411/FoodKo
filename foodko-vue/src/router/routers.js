@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 export const constantRouterMap = [
   {
-    path: '/', redirect: { name: 'Login' }
+    path: '/', redirect: { name: 'Overview' }
   },
   {
     path: '/Login',
@@ -10,6 +10,45 @@ export const constantRouterMap = [
     meta: { title: '登录', noCache: true },
     component: () => import('@/views/LoginIndex.vue'),
     hidden: true
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    meta: { title: '首页', noCache: true },
+    component: () => import('@/layout/home.vue'),
+    hidden: false,
+    children: [
+      {
+        path: 'overview',
+        name: 'Overview',
+        meta: { title: '总览', noCache: true },
+        component: () => import('@/views/home/overView/index.vue'),
+        hidden: false
+      },
+      {
+        path: 'historyRecord',
+        name: 'HistoryRecord',
+        meta: { title: '历史记录', noCache: true },
+        component: () => import('@/views/home/historyRecord/index.vue'),
+        hidden: false
+      }
+    ]
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    meta: { title: '设置', noCache: true },
+    component: () => import('@/layout/home.vue'),
+    hidden: false,
+    children: [
+      {
+        path: 'UserInfo',
+        name: 'UserInfo',
+        meta: { title: '个人信息', noCache: true },
+        component: () => import('@/views/settings/UserInfo.vue'),
+        hidden: false
+      },
+    ]
   },
   {
     path: '/ForgetPwd',

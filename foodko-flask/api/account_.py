@@ -57,7 +57,7 @@ class Logout(Resource):
 class Refresh(Resource):
     method_decorators = [jwt_required(refresh=True)]  # 使用刷新令牌进行身份验证
 
-    def post(self):
+    def get(self):
         if check_if_token_in_blacklist():
             return ReBase('2', '登录失败!').print()
         # 获取当前用户身份标识
