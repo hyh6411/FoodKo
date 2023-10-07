@@ -8,7 +8,7 @@ export function login(data) {
   })
 }
 
-export function getInfo({ name, id }) {
+export function getInfo({ name = '', id = '' }) {
   return request({
     url: '/account/queryUserInfo/?name=' + name + '&id=' + id,
     method: 'get'

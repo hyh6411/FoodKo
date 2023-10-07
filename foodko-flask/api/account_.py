@@ -34,7 +34,7 @@ class Login(Resource):
                 # 身份验证逻辑，验证成功后生成访问令牌和刷新令牌
                 access_token = create_access_token(identity=user.user_name)
                 refresh_token = create_refresh_token(identity=user.user_name)
-                return ReBase('1', '登录成功!', {'access_token': access_token, 'refresh_token': refresh_token}).print()
+                return ReBase('1', '登录成功!', {'access_token': access_token, 'refresh_token': refresh_token, 'user_name': user.user_name}).print()
             else:
                 return ReBase('2', '密码错误!', {
                     'user_name': user.user_name

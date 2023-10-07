@@ -11,18 +11,18 @@ router.beforeEach((to, from, next) => {
       // 不需要设置默认页面
       next({ path: '/home' })
     } else {
-      // if (!store.getters.user.user_name) {
-      //   // 判断当前用户是否已拉取完user_info信息
-      //   store.dispatch('GetInfo')
-      //     .then(res => {
-      //       next()
-      //     })
-      //     .catch(err => {
-      //       console.log(err)
-      //     })
-      // } else {
+      if (!store.getters.user.user_name) {
+        // 判断当前用户是否已拉取完user_info信息
+        store.dispatch('GetInfo')
+          .then(res => {
+            next()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
         next()
-      // }
+      }
     }
   } else {
     /* has no token*/

@@ -46,7 +46,7 @@ const user = {
     // 获取用户信息
     GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(res => {
+        getInfo({ name: getLoginName() }).then(res => {
           const result = res.result || {}
           setUserInfo(result, commit)
           resolve(result)

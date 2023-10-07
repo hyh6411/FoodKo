@@ -1,44 +1,77 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-  >
-    <el-menu-item index="1">
-      <router-link to="/">主页</router-link>
+  <ul class="menu_content">
+    <router-link to="/">
+      <li :class="{ 'menu_item': true, 'active': activeIndex === 'index' }" @click="handleSelect('index')">
+        总览
+      </li>
+    </router-link>
+    <router-link to="/database">
+      <li :class="{ 'menu_item': true, 'active': activeIndex === 'database' }" @click="handleSelect('database')">
+        数据库
+      </li>
+    </router-link>
+    <router-link to="/charts">
+      <li :class="{ 'menu_item': true, 'active': activeIndex === 'charts' }" @click="handleSelect('charts')">
+        图表
+      </li>
+    </router-link>
+    <router-link to="/settings">
+      <li :class="{ 'menu_item': true, 'active': activeIndex === 'settings' }" @click="handleSelect('settings')">
+        设置
+      </li>
+    </router-link>
+  </ul>
+    <!-- <el-menu-item index="index">
+      <router-link to="/">总览</router-link>
     </el-menu-item>
-    <el-sub-menu index="2">
-      <template #title>Workspace</template>
-      <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
-      <el-sub-menu index="2-4">
-        <template #title>item four</template>
-        <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="3" disabled>Info</el-menu-item>
-    <el-sub-menu index="4">
+    <el-menu-item index="database">
+      <router-link to="/database">数据库</router-link>
+    </el-menu-item>
+    <el-menu-item index="charts">
+      <router-link to="/charts">图表</router-link>
+    </el-menu-item>
+    <el-menu-item index="settings">
+      <router-link to="/settings">设置</router-link>
+    </el-menu-item> -->
+    <!-- <el-sub-menu index="setting">
       <template #title>设置</template>
         <router-link to="/settings/UserInfo">
-          <el-menu-item index="4-1">用户信息</el-menu-item>
+          <el-menu-item index="userInfo">用户信息</el-menu-item>
         </router-link>
-      <el-menu-item index="4-2">item two</el-menu-item>
-      <el-menu-item index="4-3">item three</el-menu-item>
-    </el-sub-menu>
-  </el-menu>
+    </el-sub-menu> -->
 </template>
 <script setup>
 import { ref } from "vue"
 
-const activeIndex = ref("1")
+const activeIndex = ref("index")
 
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+const handleSelect = (key) => {
+  activeIndex.value = key
 }
 </script>
 <style lang="scss" scoped>
+.menu_content {
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--el-color-primary);
+  .menu_item {
+    float: left;
+    width: 80px;
+    line-height: 54px;
+    cursor: pointer;
+    color: var(--el-color-primary);
+    &:hover {
+      color: var(--el-color-primary);
+    }
+  }
+  .active {
+    color: var(--el-color-primary);
+    border-bottom: 2px solid var(--el-color-primary);
+    font-weight: bold;
+    background-color: var(--el-color-primary-light-9);
+  }
+}
 </style>

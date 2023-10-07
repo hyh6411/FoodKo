@@ -22,14 +22,83 @@ export const constantRouterMap = [
         path: 'overview',
         name: 'Overview',
         meta: { title: '总览', noCache: true },
-        component: () => import('@/views/home/overView/index.vue'),
+        component: () => import('@/views/home/index.vue'),
         hidden: false
       },
       {
-        path: 'historyRecord',
-        name: 'HistoryRecord',
-        meta: { title: '历史记录', noCache: true },
-        component: () => import('@/views/home/historyRecord/index.vue'),
+        path: 'jrink',
+        name: 'Jrink',
+        meta: { title: '喝水', noCache: true },
+        component: () => import('@/views/home/jrink/index.vue'),
+        hidden: false
+      }
+    ]
+  },
+  {
+    path: '/database',
+    name: 'Database',
+    meta: { title: '数据库', noCache: true },
+    component: () => import('@/layout/home.vue'),
+    redirect: { name: 'DatabaseView' },
+    hidden: false,
+    children: [
+      {
+        path: 'databaseView',
+        name: 'DatabaseView',
+        meta: { title: '数据库', noCache: true },
+        component: () => import('@/views/database/index.vue'),
+        hidden: false
+      },
+      {
+        path: 'food',
+        name: 'Food',
+        meta: { title: '成品', noCache: true },
+        component: () => import('@/views/database/food'),
+        hidden: false
+      },
+      {
+        path: 'ingredients',
+        name: 'Ingredients',
+        meta: { title: '原材料', noCache: true },
+        component: () => import('@/views/database/ingredients'),
+        hidden: false
+      },
+      {
+        path: 'nutrientElements',
+        name: 'NutrientElements',
+        meta: { title: '营养元素', noCache: true },
+        component: () => import('@/views/database/NutrientElements'),
+        hidden: false
+      }
+    ]
+  },
+  {
+    path: '/charts',
+    name: 'Charts',
+    meta: { title: '图表', noCache: true },
+    component: () => import('@/layout/home.vue'),
+    redirect: { name: 'ChartsView' },
+    hidden: false,
+    children: [
+      {
+        path: 'chartsView',
+        name: 'ChartsView',
+        meta: { title: '图表', noCache: true },
+        component: () => import('@/views/charts/index.vue'),
+        hidden: false
+      },
+      {
+        path: 'eatFoodHistory',
+        name: 'EatFoodHistory',
+        meta: { title: '吃了什么', noCache: true },
+        component: () => import('@/views/charts/eatFoodHistory'),
+        hidden: false
+      },
+      {
+        path: 'jrinkHistory',
+        name: 'JrinkHistory',
+        meta: { title: '吃了什么', noCache: true },
+        component: () => import('@/views/charts/jrinkHistory'),
         hidden: false
       }
     ]
@@ -39,13 +108,21 @@ export const constantRouterMap = [
     name: 'Settings',
     meta: { title: '设置', noCache: true },
     component: () => import('@/layout/home.vue'),
+    redirect: { name: 'SettingView' },
     hidden: false,
     children: [
       {
-        path: 'UserInfo',
+        path: 'settingView',
+        name: 'SettingView',
+        meta: { title: '设置菜单', noCache: true },
+        component: () => import('@/views/settings/index.vue'),
+        hidden: false
+      },
+      {
+        path: 'userInfo',
         name: 'UserInfo',
         meta: { title: '个人信息', noCache: true },
-        component: () => import('@/views/settings/UserInfo.vue'),
+        component: () => import('@/views/settings/userInfo/index.vue'),
         hidden: false
       },
     ]
