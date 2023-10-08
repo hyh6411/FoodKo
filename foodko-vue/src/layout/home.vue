@@ -26,6 +26,12 @@ onMounted(() => {
 const store = useStore()
 </script>
 <style scoped>
+.home_body {
+  min-width: 480px;
+}
+.home_body .home_header {
+  min-width: 480px;
+}
 .home_body .user_info {
   position: absolute;
   top: 0;
@@ -48,6 +54,9 @@ const store = useStore()
   .home_header {
     position: absolute;
     bottom: 0;
+  }
+  .home_body .user_info {
+    display: none;
   }
 }
 </style>

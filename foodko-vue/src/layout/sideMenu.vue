@@ -41,9 +41,15 @@
     </el-sub-menu> -->
 </template>
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
-const activeIndex = ref("index")
+const activeIndex = ref('index')
+
+onMounted(() => {
+  activeIndex.value = route.path.split('/')[1]
+})
 
 const handleSelect = (key) => {
   activeIndex.value = key
@@ -59,7 +65,7 @@ const handleSelect = (key) => {
   border-bottom: 1px solid var(--el-color-primary);
   .menu_item {
     float: left;
-    width: 80px;
+    width: 97px;
     line-height: 54px;
     cursor: pointer;
     color: var(--el-color-primary);
