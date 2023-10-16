@@ -2,9 +2,8 @@
   <div class="question_content">
     <el-row>
       <el-col :span="12">
-        <RouterLink to="/database/questions">
-          <div class="database_item" style="background-color: rgb(11, 181, 125);">练习</div>
-        </RouterLink>
+        <div class="database_item" style="background-color: rgb(11, 181, 125);" @click="dialogTableVisible = true">练习
+        </div>
       </el-col>
       <el-col :span="12">
         <RouterLink to="/database/addQuestion">
@@ -12,10 +11,24 @@
         </RouterLink>
       </el-col>
     </el-row>
+    <el-dialog v-model="dialogTableVisible" title="选择模式" style="width: 200px;">
+      <el-button @click="goQuestion">每日一练(10题)</el-button>
+      <el-button style="margin-top: 20px;">无尽模式</el-button>
+    </el-dialog>
   </div>
 </template>
 <script setup>
 
+import { useRouter } from "vue-router";
+import { ref } from 'vue'
+const router = useRouter();
+const dialogTableVisible = ref(false)
+const goQuestion = () => {
+  router.push({
+    path: "/database/questionAnswer",
+    query: { type: 1 }
+  })
+}
 </script>
 <style lang="scss" scoped>
 .question_content {
@@ -23,6 +36,7 @@
     text-decoration: none;
     color: #2c3e50;
   }
+
   .database_item {
     padding: 50px;
     margin: 20px;

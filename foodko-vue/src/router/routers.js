@@ -78,6 +78,13 @@ export const constantRouterMap = [
         hidden: false
       },
       {
+        path: 'questionAnswer',
+        name: 'QuestionAnswer',
+        meta: { title: '题库', noCache: true },
+        component: () => import('@/views/database/questions/questionAnswer.vue'),
+        hidden: false
+      },
+      {
         path: 'addQuestion',
         name: 'AddQuestion',
         meta: { title: '添加题目', noCache: true },
