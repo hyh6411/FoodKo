@@ -69,6 +69,20 @@ export const constantRouterMap = [
         meta: { title: '营养元素', noCache: true },
         component: () => import('@/views/database/NutrientElements'),
         hidden: false
+      },
+      {
+        path: 'questions',
+        name: 'Questions',
+        meta: { title: '题库', noCache: true },
+        component: () => import('@/views/database/questions'),
+        hidden: false
+      },
+      {
+        path: 'addQuestion',
+        name: 'AddQuestion',
+        meta: { title: '添加题目', noCache: true },
+        component: () => import('@/views/database/questions/addQuestion.vue'),
+        hidden: false
       }
     ]
   },

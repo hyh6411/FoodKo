@@ -1,7 +1,7 @@
 <template>
   <ul class="menu_content">
     <router-link to="/">
-      <li :class="{ 'menu_item': true, 'active': activeIndex === 'index' }" @click="handleSelect('index')">
+      <li :class="{ 'menu_item': true, 'active': activeIndex === 'home' }" @click="handleSelect('home')">
         总览
       </li>
     </router-link>
@@ -21,7 +21,7 @@
       </li>
     </router-link>
   </ul>
-    <!-- <el-menu-item index="index">
+    <!-- <el-menu-item index="home">
       <router-link to="/">总览</router-link>
     </el-menu-item>
     <el-menu-item index="database">
@@ -45,7 +45,7 @@ import { ref, onMounted } from "vue"
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
-const activeIndex = ref('index')
+const activeIndex = ref('home')
 
 onMounted(() => {
   activeIndex.value = route.path.split('/')[1]

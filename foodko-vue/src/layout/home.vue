@@ -55,6 +55,9 @@ const store = useStore()
     position: absolute;
     bottom: 0;
   }
+  .home_body {
+    min-width: 100%;
+  }
   .home_body .user_info {
     display: none;
   }
