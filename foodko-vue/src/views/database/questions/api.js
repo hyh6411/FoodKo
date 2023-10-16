@@ -7,3 +7,10 @@ export function addQuestion(data) {
     data
   })
 }
+export function getQuestion(params) {
+  return request({
+    url: '/question/getQuestion/',
+    method: 'get',
+    params
+  })
+}
