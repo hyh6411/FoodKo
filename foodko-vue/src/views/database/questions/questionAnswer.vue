@@ -69,23 +69,15 @@ const goAnswer = () => {
 
         if (res.status === '1' && res.result && res.result.length > 0) {
             questions.value = res.result;
+
+            // 解析每个题目的选项
+            questions.value.forEach(question => {
+                // 解析option字段中的JSON字符串
+                const optionObj = JSON.parse(question.option);
+                question.options = optionObj;
+            });
+
             currentQuestion.value = questions.value[0]; // 将当前题目设为第一道题
-
-            // 检查 options 字段是否存在且不为 null 或 undefined
-            if (currentQuestion.value.options && currentQuestion.value.options !== null && currentQuestion.value.options !== undefined) {
-                // 替换掉字符串中的反斜杠，然后解析JSON
-                const optionsString = currentQuestion.value.options.replace(/\\/g, '');
-                currentQuestion.value.options = JSON.parse(optionsString);
-
-                // 输出日志，确保获取到了正确的题目和选项数据
-                console.log('题目数据：', currentQuestion.value);
-                console.log('选项数据：', currentQuestion.value.options);
-            } else {
-                // 当 options 不存在或为 null 或 undefined 时的处理逻辑
-                console.error('题目数据中的 options 字段不存在或为 null/undefined。');
-                // 在这里添加适当的处理逻辑，例如显示错误信息或者使用默认选项。
-            }
-
             startAnswer.value = false;
         }
     });
