@@ -24,11 +24,12 @@
                 </div>
             </div>
             <div class="btn">
-                <el-button @click="submitAnswer" type="primary">确定</el-button>
+
                 <el-button @click="goToPreviousQuestion" v-if="currentQuestionIndex > 0">上一题</el-button>
-                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex < questions.length - 1"
+                <el-button @click="submitAnswer" type="primary" v-if="!isAnswer">确定</el-button>
+                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex < questions.length - 1 && isAnswer"
                     type="primary">下一题</el-button>
-                <el-button @click="submitAnswers" v-if="currentQuestionIndex === questions.length - 1"
+                <el-button @click="submitAnswerAll" v-if="currentQuestionIndex === questions.length - 1"
                     type="primary">提交</el-button>
             </div>
         </div>
@@ -77,7 +78,6 @@ const goAnswer = () => {
     });
 };
 
-
 // 提交单个答案
 const submitAnswer = () => {
     const selectedAnswer = userAnswers.value[currentQuestionIndex.value];
@@ -101,7 +101,7 @@ const currentAnswer = computed(() => {
 })
 
 // 提交所有答案
-const submitAnswers = () => {
+const submitAnswerAll = () => {
     ElMessage({
         message: '提交成功',
         type: 'success'
@@ -147,7 +147,6 @@ const goToNextQuestion = () => {
         }
     }
 };
-
 onMounted(() => {
     userAnswers.value = Array(questions.value.length).fill(null);
 });
