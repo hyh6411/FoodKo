@@ -11,9 +11,9 @@
         </RouterLink>
       </el-col>
     </el-row>
-    <el-dialog v-model="dialogTableVisible" title="选择模式" style="width: 200px;">
-      <el-button @click="goQuestion">每日一练(10题)</el-button>
-      <el-button style="margin-top: 20px;">无尽模式</el-button>
+    <el-dialog v-model="dialogTableVisible" title="选择模式" style="width: 500px;">
+      <div @click="goQuestion" class="database_item" style="background-color: rgb(203, 107, 29);">每日一练(10题)</div>
+      <div class="database_item" style="background-color: rgb(11, 181, 125);">无尽模式</div>
     </el-dialog>
   </div>
 </template>
