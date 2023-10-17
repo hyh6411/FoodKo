@@ -30,7 +30,7 @@ const store = useStore()
   min-width: 480px;
 }
 .home_body .home_header {
-  min-width: 480px;
+  min-width: 400px;
 }
 .home_body .user_info {
   position: absolute;
@@ -60,6 +60,10 @@ const store = useStore()
   }
   .home_body .user_info {
     display: none;
+  }
+
+  .--el-dialog-width {
+    width: 90vw;
   }
 }
 </style>

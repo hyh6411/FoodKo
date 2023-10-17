@@ -1,10 +1,10 @@
 <template>
     <div class="question">
-        <div class="questionPreview " v-if="startAnswer">
+        <div class="questionPreview" v-if="startAnswer">
             <div class="titleTxt">每日一练</div>
             <div class="questionNum">总共为{{ 10 }}题</div>
             <p class="tipsTxt">全部为选择题，在选项中选择后点击确定</p>
-            <div class="startButton">
+            <div class="btn">
                 <el-checkbox label="今日已完成" name="type" checked="checked" />
                 <el-button class="start" @click="goAnswer()">开始</el-button>
             </div>
@@ -13,7 +13,7 @@
             <div class="questionIndex"><span>第{{ currentQuestionIndex + 1 }}题、</span>{{
                 currentQuestion.content }}</div>
             <div class="questionOptions">
-                <div v-for="(optionText, optionKey) in currentQuestion.options" :key="optionKey">
+                <div v-for="(optionText, optionKey) in currentQuestion.options" :key="optionKey" class="option_item">
                     <input type="radio" v-model="userAnswers[currentQuestionIndex]" :id="optionKey" :value="optionKey" />
                     <label :for="optionKey">{{ optionKey }}. {{ optionText }}</label>
                 </div>
@@ -24,13 +24,14 @@
                 </div>
             </div>
             <div class="btn">
-
-                <el-button @click="goToPreviousQuestion" v-if="currentQuestionIndex > 0">上一题</el-button>
+                <el-button @click="goToPreviousQuestion" :disabled="currentQuestionIndex <= 0">上一题</el-button>
                 <el-button @click="submitAnswer" type="primary" v-if="!isAnswer">确定</el-button>
-                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex < questions.length - 1 && isAnswer"
-                    type="primary">下一题</el-button>
-                <el-button @click="submitAnswerAll" v-if="currentQuestionIndex === questions.length - 1"
-                    type="primary">提交</el-button>
+                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex < questions.length - 1 && isAnswer" type="primary">
+                    下一题
+                </el-button>
+                <el-button @click="submitAnswerAll" v-if="currentQuestionIndex === questions.length - 1" type="primary">
+                  提交
+                </el-button>
             </div>
         </div>
     </div>
@@ -152,28 +153,35 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+.questionPreview {
+    padding: 20px;
+}
 .question {
     width: 100%;
     height: 800px;
-    display: flex;
-    justify-content: center;
+    .answerDiv {
+        margin-top: 80px;
+        color: rgb(156, 156, 156);
+    }
 }
 
 .titleTxt {
     text-align: left;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-left: 7px solid var(--el-color-primary);
+    padding-left: 10px;
 }
 
 .questionNum {
+    font-size: 20px;
+    font-weight: bold;
     margin: 200px 0 100px 0;
 }
 
 .tipsTxt {
     color: rgba(128, 128, 128, 1);
-}
-
-.startButton {
-    text-align: right;
-    margin: 200px 20px 0 0;
 }
 
 .start {
@@ -186,21 +194,31 @@ onMounted(() => {
 }
 
 .questionIndex {
-    font-size: 25px;
+    font-size: 20px;
+    font-weight: bold;
     margin-bottom: 30px;
 }
 
 .questionAnswer {
-    width: 500px;
+    max-width: 500px;
+    padding: 20px;
+    margin-top: 80px;
     text-align: left;
 }
 
 .questionOptions {
-    font-size: 20px;
+    margin-top: 40px;
+    font-size: 18px;
     margin-bottom: 30px;
+    .option_item {
+        margin-bottom: 8px;
+    }
 }
 
 .btn {
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
     text-align: right;
 }
 </style>

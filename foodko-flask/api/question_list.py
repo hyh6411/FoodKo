@@ -68,9 +68,10 @@ class DeleteQuestion(Resource):
 
     def post(self):
         data = request.get_json()
-        id = data['id']
-        question = QuestionList.query.filter_by(id=id).first()
-        db.session.delete(question)
+        ids = data['id']
+        question = QuestionList.query.filter(QuestionList.id.in_(ids)).all()
+        for q in question:
+            db.session.delete(q)
         db.session.commit()
         return ReBase('1', '删除成功!').print()
 

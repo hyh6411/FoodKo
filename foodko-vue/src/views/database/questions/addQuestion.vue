@@ -1,7 +1,7 @@
 <template>
   <div class="add_question">
-    <div class="question_title">新的知识点</div>
-    <el-form ref="addQuestionFormRef" :model="form" :rules="rules" label-width="100px">
+    <!-- <div class="question_title">新的知识点</div> -->
+    <el-form ref="addQuestionFormRef" :model="form" :disabled="!isEdit" :rules="rules" label-width="100px">
       <el-form-item label="问题内容" prop="content">
         <el-input
           v-model="form.content"
@@ -36,20 +36,27 @@
         ></el-input>
       </el-form-item>
     </el-form>
-    <el-button type="primary" @click="submit">提交</el-button>
   </div>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
-import { addQuestion } from './api.js'
+import { ref, reactive, defineProps } from 'vue'
 
-const form = reactive({
+const props = defineProps({
+  isEdit: {
+    // 是否编辑状态 true新增/false预览
+    type: Boolean,
+    default: false
+  }
+})
+
+const initForm = reactive({
   content: '',
   option: '',
   answer: '',
   explain: '暂无',
   remark: ''
 })
+const form = ref({ ...initForm })
 
 const addQuestionFormRef = ref(null)
 
@@ -77,28 +84,38 @@ const rules = reactive({
   ]
 })
 
+const resetFields = (formData) => {
+  const data = formData || initForm
+  form.value = { ...data }
+  addQuestionFormRef.value.clearValidate()
+}
+
 const submit = () => {
-  addQuestionFormRef.value.validate((valid) => {
-    console.log(valid, '==========vv=>')
-    if (valid) {
-      const optionArr = form.option.replaceAll('\n', '').split(',')
-      const obj = {}
-      optionArr.forEach((item) => {
-        const arr = item.split(':')
-        obj[arr[0]] = arr[1]
-      })
-      const params = {
-        ...form,
-        option: JSON.stringify(obj)
+  return new Promise((resolve, reject) => {
+    addQuestionFormRef.value.validate((valid) => {
+      if (valid) {
+        const optionArr = form.value.option.replaceAll('\n', '').split(',')
+        const obj = {}
+        optionArr.forEach((item) => {
+          const arr = item.split(':')
+          obj[arr[0]] = arr[1]
+        })
+        const params = {
+          ...form.value,
+          option: JSON.stringify(obj)
+        }
+        resolve(params)
+      } else {
+        reject(new Error('表单验证不通过'))
       }
-      addQuestion(params).then(res => {
-        console.log(res, '===========>')
-      })
-    } else {
-      console.log('error submit', '===========>')
-    }
+    })
   })
 }
+
+defineExpose({
+  resetFields,
+  submit
+})
 
 </script>
 <style lang="scss" scoped>
