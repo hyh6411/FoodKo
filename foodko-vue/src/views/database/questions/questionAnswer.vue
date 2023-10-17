@@ -26,31 +26,19 @@
         </div>
     </div>
 </template>
-
 <script setup>
 import { getQuestion } from './api.js';
-import { ref, onMounted, toRefs } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-
 const route = useRoute();
+const currentQuestion = ref({}); // 当前显示的题目
 const currentQuestionIndex = ref(0);
 const questions = ref([]);
 const userAnswers = ref([]);
 const startAnswer = ref(true);
-const currentQuestion = ref({}); // 当前显示的题目
-
-const goToPreviousQuestion = () => {
-    if (currentQuestionIndex.value > 0) {
-        currentQuestionIndex.value--;
-        currentQuestion.value = questions.value[currentQuestionIndex.value];
-    }
-};
-
-const goToNextQuestion = () => {
-    if (currentQuestionIndex.value < questions.value.length - 1) {
-        currentQuestionIndex.value++;
-        currentQuestion.value = questions.value[currentQuestionIndex.value];
-    }
+const params = {
+    id: '',
+    number: 5
 };
 
 const submitAnswers = () => {
@@ -58,46 +46,49 @@ const submitAnswers = () => {
     // 比较 userAnswers 和 questions 中的答案，计算得分，展示答题结果等
     // ...
 };
-
+// 获取题目数据
 const goAnswer = () => {
-    const params = {
-        id: '',
-        number: 5
-    };
     getQuestion(params).then(res => {
         console.log('API 响应数据:', res); // 输出API响应的数据，确保数据格式正确
-
         if (res.status === '1' && res.result && res.result.length > 0) {
             questions.value = res.result;
-
             // 解析每个题目的选项
             questions.value.forEach(question => {
                 // 解析option字段中的JSON字符串
                 const optionObj = JSON.parse(question.option);
+                // 把获取到的选项对象赋给question.options
                 question.options = optionObj;
+                console.log(question)
             });
-
             currentQuestion.value = questions.value[0]; // 将当前题目设为第一道题
+            // 选项数据
+            console.log(currentQuestion.value.options)
             startAnswer.value = false;
         }
     });
 };
-
-
-
-
+// 上一题
+const goToPreviousQuestion = () => {
+    if (currentQuestionIndex.value > 0) {
+        currentQuestionIndex.value--;
+        currentQuestion.value = questions.value[currentQuestionIndex.value];
+    }
+};
+// 下一题
+const goToNextQuestion = () => {
+    if (currentQuestionIndex.value < questions.value.length - 1) {
+        currentQuestionIndex.value++;
+        currentQuestion.value = questions.value[currentQuestionIndex.value];
+    }
+};
 onMounted(() => {
     userAnswers.value = Array(questions.value.length).fill(null);
 });
-
-
 </script>
-
 <style lang="scss" scoped>
 .question {
     width: 100%;
     height: 800px;
-    background-color: #e0dada;
     margin: 0 auto;
 }
 
