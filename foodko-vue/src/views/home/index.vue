@@ -13,12 +13,20 @@
     </div>
     <div class="info-large">{{ currentTime }}</div>
   </Card>
+  <Card :dx="100" :dy="300" :dwidth="200" dheight="100" style="padding: 10px; position: relative;" @click="goQuestion">
+    <div class="question">
+      <div class="questionContent">{{ questionsContent }}</div>
+      <div class="isCompleted"><el-checkbox label="今日已完成" name="type" checked="checked" />
+      </div>
+    </div>
+  </Card>
 </template>
 <script setup>
 import Card from '@/components/card/index.vue'
 import { getLunar } from 'chinese-lunar-calendar'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { MilkTea } from '@element-plus/icons-vue'
+import { getQuestion } from '@/views/database/questions/api';
 const currentTime = ref('');
 const currentDate = ref(new Date().toLocaleDateString());
 const lunarDay = ref('');
@@ -32,8 +40,26 @@ const updateClock = () => {
   currentTime.value = now.toLocaleTimeString(undefined, options);
 };
 const intervalId = setInterval(updateClock, 1000);
+const params = {
+  id: '',
+  number: 1
+};
+const questionsContent = ref({})
+getQuestion(params).then(res => {
+  console.log('API 响应数据:', res.result);
+  if (res.status === '1' && res.result && res.result.length > 0) {
+    questionsContent.value = res.result[0].content;
+  }
+});
+const goQuestion = () => {
+  router.push({
+    path: "/database/questionAnswer",
+    query: { type: 1 }
+  })
+}
 onMounted(() => {
   updateClock()
+  getQuestion(params)
 });
 onUnmounted(() => {
   clearInterval(intervalId); // 清除定时器
@@ -89,5 +115,15 @@ function addProcessNum(num = 10) {
   transform: translate(-50%, -50%);
   font-size: 60px;
   /* 大字体 */
+}
+
+.question {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.isCompleted {
+  text-align: right;
+
 }
 </style>

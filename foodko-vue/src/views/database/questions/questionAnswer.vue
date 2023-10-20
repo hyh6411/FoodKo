@@ -72,10 +72,8 @@ const goAnswer = () => {
         if (res.status === '1' && res.result && res.result.length > 0) {
             // 使用 JSON.stringify 和 JSON.parse 进行深拷贝
             questions.value = JSON.parse(JSON.stringify(res.result));
-
             // 初始化 userAnswers 为包含足够元素数量的数组
             userAnswers.value = Array(questions.value.length).fill(null);
-
             // 解析每个题目的选项
             questions.value.forEach(question => {
                 const optionObj = JSON.parse(question.option);
