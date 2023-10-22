@@ -42,7 +42,7 @@
     </div>
     <el-dialog
       v-model="showAddDialog"
-      title="新增知识点"
+      :title="isEditDialog ? '编辑知识点' : '新增知识点'"
       width="90vw"
       top="10vh"
     >

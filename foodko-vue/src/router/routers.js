@@ -71,6 +71,13 @@ export const constantRouterMap = [
         hidden: false
       },
       {
+        path: 'elementInfomation',
+        name: 'ElementInfomation',
+        meta: { title: '元素详情', noCache: true },
+        component: () => import('@/views/database/NutrientElements/elementInfo.vue'),
+        hidden: false
+      },
+      {
         path: 'questions',
         name: 'Questions',
         meta: { title: '题库', noCache: true },
