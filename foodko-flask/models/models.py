@@ -7,6 +7,24 @@ Base = declarative_base()
 metadata = Base.metadata
 
 
+class ElementList(Base):
+    __tablename__ = 'Element_list'
+    __table_args__ = {'comment': '营养元素表'}
+
+    id = Column(String(50), primary_key=True)
+    name = Column(String(50), server_default=text("'没有名字'"))
+    chemical_tag = Column(String(50), server_default=text("''"))
+    main_text = Column(String(2000), server_default=text("''"))
+    alias = Column(String(50), server_default=text("''"), comment='别名')
+    image = Column(String(255), server_default=text("''"))
+    link = Column(String(255), server_default=text("''"), comment='链接，备用')
+    icon = Column(String(50), server_default=text("''"))
+    origin_food = Column(String(255), server_default=text("''"), comment='摄入来源，[id]的格式')
+    origin_select = Column(String(255), server_default=text("''"), comment='摄入选择，文本')
+    compute = Column(String(255), server_default=text("''"), comment="含量计算，{text: '', item: []}")
+    heat = Column(INTEGER(20))
+
+
 class QuestionList(Base):
     __tablename__ = 'question_list'
     __table_args__ = {'comment': '题库'}

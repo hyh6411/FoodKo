@@ -25,7 +25,7 @@
           :min-width="item.field === 'content' ? '150' : ''"></vxe-column>
       </vxe-table>
     </div>
-    <el-dialog v-model="showAddDialog" title="新增知识点" width="90vw" top="10vh">
+    <el-dialog v-model="showAddDialog" :title="isEditDialog ? '编辑知识点' : '新增知识点'" width="90vw" top="10vh">
       <div v-if="isEditDialog" class="q_operation">
         <el-button v-show="!isEdit" type="primary" @click="isEdit = true">编辑</el-button>
         <el-button v-show="isEdit" @click="submitUpdateQuestion">保存</el-button>
