@@ -13,7 +13,7 @@
     </div>
     <div class="info-large">{{ currentTime }}</div>
   </Card>
-  <Card :dx="100" :dy="300" :dwidth="200" dheight="100" style="padding: 10px; position: relative;" @click="goQuestion">
+  <Card :dx="500" :dy="70" :dwidth="200" dheight="100" @click="goQuestion" class="Card">
     <div class="question">
       <div class="questionContent">{{ questionsContent }}</div>
       <div class="isCompleted"><el-checkbox label="今日已完成" name="type" checked="checked" />
@@ -27,6 +27,8 @@ import { getLunar } from 'chinese-lunar-calendar'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { MilkTea } from '@element-plus/icons-vue'
 import { getQuestion } from '@/views/database/questions/api';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const currentTime = ref('');
 const currentDate = ref(new Date().toLocaleDateString());
 const lunarDay = ref('');
@@ -100,7 +102,6 @@ function addProcessNum(num = 10) {
 
 }
 
-.time {}
 
 .info-small {
   font-size: 18px;
@@ -118,12 +119,28 @@ function addProcessNum(num = 10) {
 }
 
 .question {
-  font-size: 25px;
+  text-align: left;
+  font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  white-space: pre-line;
 }
 
-.isCompleted {
-  text-align: right;
 
+
+.isCompleted {
+  position: absolute;
+  top: 70px;
+  left: 100px;
+}
+
+.Card {
+  padding: 10px;
+  position: relative;
+}
+
+.Card:active {
+  background-color: beige;
 }
 </style>
