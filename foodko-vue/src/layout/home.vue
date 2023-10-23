@@ -25,7 +25,6 @@ import { onMounted } from 'vue'
 const confirmEvent = () => {
   console.log('123!')
 }
-}
 onMounted(() => {
   // console.log('home', store.getters.user, store.getters.user)
 })
