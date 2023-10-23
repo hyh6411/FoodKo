@@ -21,9 +21,10 @@
 import sideMenu from '@/layout/sideMenu.vue'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
-const confirm = () => {
-  console.log(123)
 
+const confirmEvent = () => {
+  console.log('123!')
+}
 }
 onMounted(() => {
   // console.log('home', store.getters.user, store.getters.user)
