@@ -16,7 +16,7 @@
   <Card :dx="500" :dy="70" :dwidth="200" dheight="100" @click="goQuestion" class="Card">
     <div class="question">
       <div class="questionContent">{{ questionsContent }}</div>
-      <div class="isCompleted"><el-checkbox label="今日已完成" name="type" checked="checked" />
+      <div class="isCompleted"><el-checkbox label="今日已完成" name="type" checked="checked" disabled />
       </div>
     </div>
   </Card>
@@ -133,6 +133,7 @@ function addProcessNum(num = 10) {
   position: absolute;
   top: 70px;
   left: 100px;
+  color: #000;
 }
 
 .Card {

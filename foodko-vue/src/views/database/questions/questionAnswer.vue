@@ -5,7 +5,7 @@
             <div class="questionNum">{{ type == 1 ? '总共为10题' : '无尽模式' }}</div>
             <p class="tipsTxt">全部为选择题，在选项中选择后点击确定</p>
             <div class="btn">
-                <el-checkbox label="今日已完成" name="type" checked="checked" />
+                <el-checkbox label="今日已完成" name="type" checked="checked" disabled />
                 <el-button class="start" @click="goAnswer()">开始</el-button>
             </div>
         </div>
