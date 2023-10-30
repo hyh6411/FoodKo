@@ -1,17 +1,18 @@
 <template>
     <div class="question">
         <div class="questionPreview" v-if="startAnswer">
-            <div class="titleTxt">每日一练</div>
-            <div class="questionNum">总共为{{ 10 }}题</div>
+            <div class="titleTxt">{{ type == 1 ? '每日一练' : '无尽模式' }}</div>
+            <div class="questionNum">{{ type == 1 ? '总共为10题' : '无尽模式' }}</div>
             <p class="tipsTxt">全部为选择题，在选项中选择后点击确定</p>
             <div class="btn">
-                <el-checkbox label="今日已完成" name="type" checked="checked" />
+                <el-checkbox label="今日已完成" name="type" checked="checked" disabled />
                 <el-button class="start" @click="goAnswer()">开始</el-button>
             </div>
         </div>
         <div class="questionAnswer" v-else>
-            <div class="questionIndex"><span>第{{ currentQuestionIndex + 1 }}题、</span>{{
-                currentQuestion.content }}</div>
+            <div class="questionIndex"><span>第{{ type == 1 ? currentQuestionIndex + 1 : questionNum + 1
+            }}题、</span>{{
+    currentQuestion.content }}</div>
             <div class="questionOptions">
                 <div v-for="(optionText, optionKey) in currentQuestion.options" :key="optionKey" class="option_item">
                     <input type="radio" v-model="userAnswers[currentQuestionIndex]" :id="optionKey" :value="optionKey" />
@@ -24,13 +25,16 @@
                 </div>
             </div>
             <div class="btn">
-                <el-button @click="goToPreviousQuestion" :disabled="currentQuestionIndex <= 0">上一题</el-button>
+                <el-button @click="goToPreviousQuestion" :disabled="currentQuestionIndex <= 0"
+                    v-if="questions.length !== 1">上一题</el-button>
                 <el-button @click="submitAnswer" type="primary" v-if="!isAnswer">确定</el-button>
-                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex < questions.length - 1 && isAnswer" type="primary">
+                <el-button @click="goToNextQuestion" v-if="currentQuestionIndex <= questions.length - 1 && isAnswer"
+                    type="primary">
                     下一题
                 </el-button>
-                <el-button @click="submitAnswerAll" v-if="currentQuestionIndex === questions.length - 1" type="primary">
-                  提交
+                <el-button @click="submitAnswerAll"
+                    v-if="currentQuestionIndex === questions.length - 1 && questions.length > 1" type="primary">
+                    提交
                 </el-button>
             </div>
         </div>
@@ -50,20 +54,26 @@ const questions = ref([]);
 const userAnswers = ref([]);
 const startAnswer = ref(true);
 const isAnswer = ref(false)
+const type = route.query.type;
+const questionNum = ref(0)
 const params = {
     id: '',
-    number: 5
+    number: 10
 };
+
 const goAnswer = () => {
+    console.log(type)
+    if (type == 2) {
+        params.number = 1;
+    }
+    // console.log(params)
     getQuestion(params).then(res => {
         console.log('API 响应数据:', res);
         if (res.status === '1' && res.result && res.result.length > 0) {
             // 使用 JSON.stringify 和 JSON.parse 进行深拷贝
             questions.value = JSON.parse(JSON.stringify(res.result));
-
             // 初始化 userAnswers 为包含足够元素数量的数组
             userAnswers.value = Array(questions.value.length).fill(null);
-
             // 解析每个题目的选项
             questions.value.forEach(question => {
                 const optionObj = JSON.parse(question.option);
@@ -137,6 +147,11 @@ const goToPreviousQuestion = () => {
 
 // 下一题
 const goToNextQuestion = () => {
+    if (type == 2) {
+        goAnswer()
+        questionNum.value = questionNum.value + 1
+        isAnswer.value = false
+    }
     if (currentQuestionIndex.value < questions.value.length - 1) {
         currentQuestionIndex.value++;
         currentQuestion.value = questions.value[currentQuestionIndex.value];
@@ -150,15 +165,18 @@ const goToNextQuestion = () => {
 };
 onMounted(() => {
     userAnswers.value = Array(questions.value.length).fill(null);
+    // console.log(type); // 输出 2
 });
 </script>
 <style lang="scss" scoped>
 .questionPreview {
     padding: 20px;
 }
+
 .question {
     width: 100%;
     height: 800px;
+
     .answerDiv {
         margin-top: 80px;
         color: rgb(156, 156, 156);
@@ -210,6 +228,7 @@ onMounted(() => {
     margin-top: 40px;
     font-size: 18px;
     margin-bottom: 30px;
+
     .option_item {
         margin-bottom: 8px;
     }

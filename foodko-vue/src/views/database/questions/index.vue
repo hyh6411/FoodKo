@@ -7,7 +7,7 @@
         </div>
       </el-col>
       <el-col :span="12">
-        <div class="database_item" style="background-color: rgb(203, 107, 29);">
+        <div class="database_item" style="background-color: rgb(203, 107, 29); " @click="goQuestionAll">
           无尽挑战
         </div>
       </el-col>
@@ -17,44 +17,21 @@
         <el-button type="primary" @click="handleAddQuestion">新增</el-button>
         <el-button type="primary" :disabled="!selectRow.length" @click="deleteQuestion">删除</el-button>
       </div>
-      <vxe-table
-        border
-        resizable
-        highlight-hover-row
-        highlight-current-row
-        auto-resize
-        row-id="id"
-        show-overflow
-        :data="tableData"
-        @cell-click="handleRowClick"
-        @checkbox-all="handleSelectionChange"
-        @checkbox-change="handleSelectionChange"
-      >
+      <vxe-table border resizable highlight-hover-row highlight-current-row auto-resize row-id="id" show-overflow
+        :data="tableData" @cell-click="handleRowClick" @checkbox-all="handleSelectionChange"
+        @checkbox-change="handleSelectionChange">
         <vxe-column type="checkbox" width="60"></vxe-column>
-        <vxe-column
-          v-for="(item, index) in tableColumns"
-          :key="index"
-          :field="item.field"
-          :title="item.title"
-          :min-width="item.field === 'content' ? '150' : ''"
-        ></vxe-column>
+        <vxe-column v-for="(item, index) in tableColumns" :key="index" :field="item.field" :title="item.title"
+          :min-width="item.field === 'content' ? '150' : ''"></vxe-column>
       </vxe-table>
     </div>
-    <el-dialog
-      v-model="showAddDialog"
-      :title="isEditDialog ? '编辑知识点' : '新增知识点'"
-      width="90vw"
-      top="10vh"
-    >
+    <el-dialog v-model="showAddDialog" :title="isEditDialog ? '编辑知识点' : '新增知识点'" width="90vw" top="10vh">
       <div v-if="isEditDialog" class="q_operation">
         <el-button v-show="!isEdit" type="primary" @click="isEdit = true">编辑</el-button>
         <el-button v-show="isEdit" @click="submitUpdateQuestion">保存</el-button>
         <el-button v-show="isEdit" @click="cancelUpdateQuestion">取消</el-button>
       </div>
-      <addQuestionForm
-        ref="addQuestionFormRef"
-        :is-edit="isEdit"
-      ></addQuestionForm>
+      <addQuestionForm ref="addQuestionFormRef" :is-edit="isEdit"></addQuestionForm>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="cancelAddQuestion">取消</el-button>
@@ -73,7 +50,6 @@ import addQuestionForm from './addQuestion.vue';
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-
 const tableData = ref([])
 const tableColumns = ref([
   { field: 'content', title: '问题内容', type: 'input' },
@@ -86,6 +62,7 @@ const showAddDialog = ref(false)
 let copyRowData = {}
 const addQuestionFormRef = ref(null)
 
+
 onMounted(() => {
   getTableData()
 })
@@ -95,6 +72,13 @@ const goQuestion = () => {
     path: "/database/questionAnswer",
     query: { type: 1 }
   })
+}
+const goQuestionAll = () => {
+  router.push({
+    path: "/database/questionAnswer",
+    query: { type: 2 }
+  })
+
 }
 
 const handleSelectionChange = ({ records }) => {
@@ -191,13 +175,16 @@ const submitUpdateQuestion = () => {
     color: white;
   }
 }
+
 .question_table {
   padding: 20px;
+
   ::v-deep .vxe-table--body-wrapper {
     overflow-y: auto;
     height: calc(100vh - 400px);
   }
 }
+
 ::v-deep .q_operation {
   margin-bottom: 20px;
   display: flex;
