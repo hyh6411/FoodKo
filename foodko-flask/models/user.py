@@ -1,5 +1,7 @@
+
 from .base_table import BaseTable
 from .init_sqlalchemy import db
+from sqlalchemy.dialects.mysql import INTEGER, TINYINT
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -9,7 +11,8 @@ class User(db.Model, BaseTable):
     id = db.Column(db.Integer, primary_key=True, comment='用户id')
     user_name = db.Column(db.String(12), comment='用户名')
     pass_word = db.Column(db.String(12), comment='密码')
-    sex = db.Column(db.BOOLEAN, default=True, comment='性别')
+    sex = db.Column(TINYINT(1), comment='性别')
+    weight = db.Column(TINYINT(5), comment='体重')
     password_hash = db.Column(db.String(150), comment='哈希密码')
     account = db.Column(db.String(10), comment='账号')
     introduce = db.Column(db.String(100), default='该用户还没有介绍！', comment='自我介绍')

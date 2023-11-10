@@ -22,7 +22,22 @@ class ElementList(Base):
     origin_food = Column(String(255), server_default=text("''"), comment='摄入来源，[id]的格式')
     origin_select = Column(String(255), server_default=text("''"), comment='摄入选择，文本')
     compute = Column(String(255), server_default=text("''"), comment="含量计算，{text: '', item: []}")
-    heat = Column(INTEGER(20))
+    heat = Column(INTEGER(11))
+    back_color = Column(String(50), server_default=text("'blue'"), comment='背景颜色')
+
+
+class IngredientsList(Base):
+    __tablename__ = 'ingredients_list'
+    __table_args__ = {'comment': '食品原材料，比如土豆、西红柿、五花肉、羊肉、牛奶、大豆。。。'}
+
+    id = Column(String(50), primary_key=True)
+    name = Column(String(50), server_default=text("'还没有名字'"))
+    nutrition_list = Column(String(2000), server_default=text("'[]'"), comment='储存元素的id和含量(g)，调查询后台查出来')
+    cook_list = Column(String(2000), server_default=text("'[]'"))
+    alias = Column(String(250), server_default=text("''"))
+    text = Column(String(2000), server_default=text("'描述文本'"))
+    icon = Column(String(200), server_default=text("''"))
+    img = Column(String(200), server_default=text("''"))
 
 
 class QuestionList(Base):

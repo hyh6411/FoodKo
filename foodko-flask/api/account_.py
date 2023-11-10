@@ -68,12 +68,16 @@ class Refresh(Resource):
 
 
 class AddUser(Resource):
-    method_decorators = [jwt_required()]
+    # method_decorators = [jwt_required()]
 
     def post(self):
         data = request.get_json()
         name = data['name']
         password = data['pass']
+        # 对name唯一性校验
+        if User.query.filter_by(user_name=name).first():
+            return ReBase('2', '用户已存在!').print()
+
         user = User(user_name=name, pass_word=password)
         # user对象会自动加密密码
         db.session.add(user)
@@ -86,9 +90,11 @@ class DeleteUser(Resource):
 
     def post(self):
         data = request.get_json()
-        user_id = data['id']
-        user = User.query.filter_by(id=user_id).first()
-        db.session.delete(user)
+        user_ids = data['ids']
+        for user_id in user_ids:
+            user = User.query.filter_by(id=user_id).first()
+            if user:
+                db.session.delete(user)
         db.session.commit()
         return ReBase('1', '删除成功!').print()
 
@@ -122,9 +128,17 @@ class UserInfo(Resource):
         elif id:
             user = User.query.filter_by(id=id).first()
         else:
-            return ReBase('2')
+            return ReBase('2').print()
         if user:
             return ReBase('1', obj=user.to_dict()).print()
+
+
+class QueryAllUser(Resource):
+    method_decorators = [jwt_required()]
+
+    def get(self):
+        users = User.query.all()
+        return ReBase('1', obj=[user.to_dict() for user in users]).print()
 
 
 api = Api(bp)
@@ -134,3 +148,4 @@ api.add_resource(AddUser, '/add/', endpoint='add')
 api.add_resource(DeleteUser, '/delete/', endpoint='delete')
 api.add_resource(UpdateUser, '/update/', endpoint='update')
 api.add_resource(UserInfo, '/queryUserInfo/', endpoint='userInfo')
+api.add_resource(QueryAllUser, '/queryAll/', endpoint='queryAllUser')

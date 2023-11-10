@@ -34,8 +34,8 @@ class GetQuestion(Resource):
         id = request.args.get('id')
         number = request.args.get('number')
         if id:
-            question_list = QuestionList.query.filter_by(id=id).first()
-            return ReBase('1', obj=question_list).print()
+            question = QuestionList.query.filter_by(id=id).first()
+            return ReBase('1', obj=question.to_dict()).print()
         elif number:
             # 随机抽取题目
             # 获取表中的总条数
@@ -68,7 +68,7 @@ class DeleteQuestion(Resource):
 
     def post(self):
         data = request.get_json()
-        ids = data['id']
+        ids = data['ids']
         question = QuestionList.query.filter(QuestionList.id.in_(ids)).all()
         for q in question:
             db.session.delete(q)
@@ -82,11 +82,11 @@ class UpdateQuestion(Resource):
     def post(self):
         data = request.get_json()
         id = data['id']
-        content = data['content'] | ''
-        option = data['option'] | ''
-        remark = data['remark'] | ''
-        explain = data['explain'] | ''
-        answer = data['answer'] | ''
+        content = data['content']
+        option = data['option']
+        remark = data['remark']
+        explain = data['explain']
+        answer = data['answer']
         question = QuestionList.query.filter_by(id=id).first()
         question.content = content
         question.option = option

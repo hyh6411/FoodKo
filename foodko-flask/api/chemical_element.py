@@ -76,9 +76,11 @@ class DeleteElement(Resource):
     method_decorators = [jwt_required()]
 
     def post(self):
-        id = request.get_json()['id']
-        element = ElementList.query.filter_by(id=id).first()
-        db.session.delete(element)
+        ids = request.get_json()['ids']
+        for id in ids:
+            element = ElementList.query.filter_by(id=id).first()
+            if element:
+                db.session.delete(element)
         db.session.commit()
         return ReBase('1', '删除成功!').print()
 
