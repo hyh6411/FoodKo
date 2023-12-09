@@ -74,6 +74,7 @@ class DeleteIngredient(Resource):
         ids = data['ids']
         for id in ids:
             ingredients = IngredientsList.query.filter_by(id=id).first()
+            # print(ingredients, '找到了没有', id)
             if ingredients:
                 db.session.delete(ingredients)
         db.session.commit()

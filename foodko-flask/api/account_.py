@@ -79,6 +79,10 @@ class AddUser(Resource):
             return ReBase('2', '用户已存在!').print()
 
         user = User(user_name=name, pass_word=password)
+        for column in User.__table__.columns:
+            # 包含在data中但不能为name或者pass
+            if column.name in data and column.name != 'name' and column.name != 'pass':
+                setattr(user, column.name, data[column.name])
         # user对象会自动加密密码
         db.session.add(user)
         db.session.commit()

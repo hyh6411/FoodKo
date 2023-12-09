@@ -6,6 +6,8 @@ from flask_migrate import Migrate
 import config
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
+# 防御DDOS攻击
+from ulit.werkzeug_proxy import DDoSProtection
 import models
 
 app = Flask(__name__)
@@ -13,6 +15,9 @@ app = Flask(__name__)
 
 # 加载配置
 app.config.from_object(config.DevelopmentConfig)
+
+# 防御DDOS攻击
+app.wsgi_app = DDoSProtection(app.wsgi_app, num_requests=1000)
 
 # 展示修改jwt生效时长
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
