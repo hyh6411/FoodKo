@@ -41,7 +41,7 @@ class Login(Resource):
                 }).print()
             pass
         else:
-            return ReBase('2', '查无此人!').print()
+            return ReBase('2', '账号不存在!').print()
 
 
 class Logout(Resource):

@@ -15,14 +15,14 @@ class ReBase:
         self.status = status
         self.obj = obj
         if msg:
-            self.massage = msg
+            self.message = msg
         else:
-            self.massage = re_table[status]['msg']
+            self.message = re_table[status]['msg']
         pass
 
     def print(self):
         return {
             'status': self.status,
-            'massage': self.massage,
+            'message': self.message,
             'result': self.obj
         }
